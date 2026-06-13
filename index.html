@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
         
         body {
-            background-color: #f9f6f0; /* Warm off-white background */
+            background-color: #f9f6f0;
             color: #333333;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -16,8 +16,126 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            text-align: center;
+            overflow: hidden; /* Prevents scrolling while envelope is closed */
         }
+
+        /* =========================================
+           ENVELOPE & ANIMATION STYLES
+           ========================================= */
+        .envelope-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #f9f6f0;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #e0d8c3;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Left and Right Envelope Flaps */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-left: 160px solid #d6ceb5;
+            z-index: 2;
+        }
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            border-top: 110px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-right: 160px solid #d6ceb5;
+            z-index: 2;
+        }
+
+        /* Bottom Pocket */
+        .bottom-pocket {
+            position: absolute;
+            bottom: 0; left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 120px solid #e0d8c3;
+            z-index: 3;
+        }
+
+        /* Top Flap (The part that opens) */
+        .flap {
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #cbbfa1;
+            z-index: 4;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        /* Fake Letter inside the envelope */
+        .letter {
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            background: #fff;
+            border: 1px solid #e0d8c3;
+            z-index: 1;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        /* Tap to Open Text */
+        .tap-text {
+            margin-top: 50px;
+            font-size: 1.1rem;
+            color: #7a6a53;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Animation Classes applied via JavaScript */
+        .open-flap {
+            transform: rotateX(180deg);
+            z-index: 1 !important; /* Drops behind letter when open */
+        }
+        .pull-letter {
+            transform: translateY(-80px);
+        }
+
+        /* =========================================
+           ACTUAL INVITATION CARD STYLES
+           ========================================= */
+        .actual-card-container {
+            display: none; /* Hidden until envelope opens */
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
         .card {
             background: #ffffff;
             padding: 50px 40px;
@@ -26,6 +144,8 @@
             max-width: 450px;
             width: 85%;
             border: 1px solid #e0d8c3;
+            text-align: center;
+            margin: 20px 0; /* Ensures it doesn't touch the top/bottom edges */
         }
         .hosts {
             font-family: 'Playfair Display', serif;
@@ -83,42 +203,155 @@
         .map-btn:hover {
             background-color: #555555;
         }
+
+        /* =========================================
+           MEDIA QUERIES (MOBILE & TABLET RESPONSIVENESS)
+           ========================================= */
+        
+        /* Tablets (screens smaller than 768px) */
+        @media screen and (max-width: 768px) {
+            .card {
+                padding: 40px 30px;
+                width: 90%;
+            }
+            .title {
+                font-size: 2.4rem;
+            }
+            .hosts {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Mobile Phones (screens smaller than 480px) */
+        @media screen and (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                width: 92%;
+            }
+            .title {
+                font-size: 2rem;
+                margin: 10px 0 20px 0;
+            }
+            .hosts {
+                font-size: 1.4rem;
+            }
+            .intro {
+                font-size: 0.85rem;
+            }
+            .details {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+            .date-time {
+                font-size: 1rem;
+            }
+            .venue-name {
+                font-size: 1.2rem;
+            }
+            /* Scales the envelope down slightly so it doesn't break the layout on small phones */
+            .envelope {
+                transform: scale(0.9);
+            }
+            .pull-letter {
+                transform: translateY(-60px) scale(0.9);
+            }
+        }
+
+        /* Very Small Phones (screens smaller than 350px) */
+        @media screen and (max-width: 350px) {
+            .envelope {
+                transform: scale(0.75);
+            }
+            .pull-letter {
+                transform: translateY(-50px) scale(0.75);
+            }
+            .title {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="bismillah">﷽<br>
-        <!-- Added Host Names Here -->
-        <div class="hosts">Mrs & Mr Abdul Qadeer</div>
-        
-        <!-- Adjusted Intro Text -->
-        <div class="intro">cordially invite you to attend a</div>
-        
-        <div class="title">Family Dinner Gathering</div>
-        
-        <div class="details">
-            May Allah fill our evening with peace, joy, and Barakah.
+
+    <!-- 1. THE ENVELOPE SCREEN -->
+    <div class="envelope-wrapper" id="envelopeWrapper" onclick="openInvitation()">
+        <div class="envelope">
+            <div class="flap" id="flap"></div>
+            <div class="letter" id="letter"></div>
+            <div class="bottom-pocket"></div>
         </div>
-        
-        <div class="details date-time">
-            <!-- Replace with your actual date and time -->
-            Monday, 15 June, 2026<br>
-            8:00 PM Onwards
-        </div>
-        
-        <div class="venue">
-            <div class="details"><strong>Venue:</strong></div>
-            <div class="venue-name">The City Cheff</div>
-            <div class="details" style="font-size: 0.9rem; color: #666; margin-top: 5px;">
-                Floor No. 3, Land Mall, Centre Point<br>
-                Marris Rd, Aligarh
+        <div class="tap-text">Tap to Open</div>
+    </div>
+
+    <!-- 2. THE ACTUAL INVITATION CARD -->
+    <div class="actual-card-container" id="actualCard">
+        <div class="card">
+            <div class="hosts">Mr. Bob & Mrs. Alice</div>
+            
+            <div class="intro">cordially invite you to attend a</div>
+            
+            <div class="title">Family Dinner Gathering</div>
+            
+            <div class="details">
+                May Allah fill our evening with peace, joy, and Barakah.
             </div>
             
-            <!-- Map Link Button -->
-            <a href="https://www.google.com/maps/search/?api=1&query=The+City+Cheff+Aligarh" target="_blank" class="map-btn">
-                View on Google Maps
-            </a>
+            <div class="details date-time">
+                Monday, 15 June, 2026<br>
+                8:00 PM Onwards
+            </div>
+            
+            <div class="venue">
+                <div class="details"><strong>Venue:</strong></div>
+                <div class="venue-name">The City Cheff</div>
+                <div class="details" style="font-size: 0.9rem; color: #666; margin-top: 5px;">
+                    Floor No. 3, Land Mall, Centre Point<br>
+                    Marris Rd, Aligarh
+                </div>
+                
+                <a href="https://www.google.com/maps/search/?api=1&query=The+City+Cheff+Aligarh" target="_blank" class="map-btn">
+                    View on Google Maps
+                </a>
+            </div>
         </div>
     </div>
+
+    <!-- 3. THE ANIMATION JAVASCRIPT -->
+    <script>
+        document.getElementById('actualCard').style.display = 'none';
+
+        function openInvitation() {
+            const envelopeWrapper = document.getElementById('envelopeWrapper');
+            const flap = document.getElementById('flap');
+            const letter = document.getElementById('letter');
+            const actualCard = document.getElementById('actualCard');
+
+            // Step 1: Open the envelope flap
+            flap.classList.add('open-flap');
+
+            // Step 2: Slide the letter out slightly
+            setTimeout(() => {
+                letter.classList.add('pull-letter');
+            }, 500);
+
+            // Step 3: Fade out the envelope and fade in the actual card
+            setTimeout(() => {
+                envelopeWrapper.style.opacity = '0';
+                actualCard.style.display = 'flex';
+                
+                setTimeout(() => {
+                    actualCard.style.opacity = '1';
+                    // Re-enable scrolling so users can scroll on smaller mobile screens
+                    document.body.style.overflow = 'auto'; 
+                    
+                    setTimeout(() => {
+                        envelopeWrapper.style.display = 'none';
+                    }, 1000);
+
+                }, 50);
+
+            }, 1300);
+        }
+    </script>
 </body>
 </html>
