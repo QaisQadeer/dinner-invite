@@ -170,12 +170,13 @@
             z-index: 2;
         }
 
-        /* Bismillah fixed styling */
+        /* Fixed Bismillah to ALWAYS stay on one line */
         .bismillah {
             font-size: 2.2rem;
             color: #7a6a53;
             margin-bottom: 15px;
-            font-family: "Traditional Arabic", "Amiri", serif; /* Helps it render properly on all devices */
+            font-family: "Traditional Arabic", "Amiri", serif; 
+            white-space: nowrap; /* Strictly prevents breaking onto a second line */
         }
         
         .hosts {
@@ -250,6 +251,10 @@
             .hosts {
                 font-size: 1.6rem;
             }
+            /* Adjust Bismillah for tablets */
+            .bismillah {
+                font-size: 1.8rem;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -264,9 +269,9 @@
             .corner-bl { bottom: 6px; left: 6px; }
             .corner-br { bottom: 6px; right: 6px; }
 
-            /* Fixes the Bismillah for mobile */
+            /* Fixes the Bismillah for mobile so it fits on one line */
             .bismillah {
-                font-size: 1.6rem;
+                font-size: 1.4rem; 
                 margin-bottom: 10px;
             }
 
@@ -308,6 +313,10 @@
             .title {
                 font-size: 1.8rem;
             }
+            /* Scales it down slightly more for tiny screens to guarantee a single line */
+            .bismillah {
+                font-size: 1.2rem; 
+            }
         }
     </style>
 </head>
@@ -331,6 +340,7 @@
             <div class="corner corner-br"></div>
 
             <div class="card-content">
+                
                 <div class="bismillah">﷽</div>
                 
                 <div class="hosts">Mrs & Mr Abdul Qadeer</div>
