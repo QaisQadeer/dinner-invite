@@ -16,7 +16,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Prevents scrolling while envelope is closed */
+            overflow: hidden; 
         }
 
         /* =========================================
@@ -47,7 +47,6 @@
             transition: transform 0.3s ease;
         }
 
-        /* Left and Right Envelope Flaps */
         .envelope::before {
             content: '';
             position: absolute;
@@ -67,7 +66,6 @@
             z-index: 2;
         }
 
-        /* Bottom Pocket */
         .bottom-pocket {
             position: absolute;
             bottom: 0; left: 0;
@@ -77,7 +75,6 @@
             z-index: 3;
         }
 
-        /* Top Flap (The part that opens) */
         .flap {
             position: absolute;
             top: 0; left: 0;
@@ -89,7 +86,6 @@
             transition: transform 0.6s ease-in-out;
         }
 
-        /* Fake Letter inside the envelope */
         .letter {
             position: absolute;
             top: 10px; left: 10px; right: 10px; bottom: 10px;
@@ -99,7 +95,6 @@
             transition: transform 0.6s ease-in-out;
         }
 
-        /* Tap to Open Text */
         .tap-text {
             margin-top: 50px;
             font-size: 1.1rem;
@@ -144,13 +139,9 @@
             width: 85%;
             text-align: center;
             margin: 20px 0;
-            position: relative; /* Required for the corners to position correctly */
+            position: relative; 
         }
 
-        /* -----------------------------------------
-           NEW ELEGANT CORNERS & INNER BORDER 
-           ----------------------------------------- */
-        
         /* Inner structural border */
         .card::before {
             content: '';
@@ -166,27 +157,27 @@
             position: absolute;
             width: 40px;
             height: 40px;
-            border: 2px solid #b89f65; /* Elegant muted gold/bronze color */
+            border: 2px solid #b89f65;
             pointer-events: none;
         }
         .corner-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-top-left-radius: 8px; }
         .corner-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; border-top-right-radius: 8px; }
         .corner-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; border-bottom-left-radius: 8px; }
         .corner-br { bottom: 12px; right: 12px; border-left: none; border-top: none; border-bottom-right-radius: 8px; }
-        
-        /* ----------------------------------------- */
 
-        /* Wrapper to keep text above the borders */
         .card-content {
             position: relative;
             z-index: 2;
         }
 
+        /* Bismillah fixed styling */
         .bismillah {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #7a6a53;
             margin-bottom: 15px;
+            font-family: "Traditional Arabic", "Amiri", serif; /* Helps it render properly on all devices */
         }
+        
         .hosts {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
@@ -266,13 +257,18 @@
                 padding: 30px 20px;
                 width: 92%;
             }
-            /* Adjusts borders & corners for smaller mobile screens so they don't overlap text */
             .card::before { top: 12px; left: 12px; right: 12px; bottom: 12px; }
             .corner { width: 25px; height: 25px; }
             .corner-tl { top: 6px; left: 6px; }
             .corner-tr { top: 6px; right: 6px; }
             .corner-bl { bottom: 6px; left: 6px; }
             .corner-br { bottom: 6px; right: 6px; }
+
+            /* Fixes the Bismillah for mobile */
+            .bismillah {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
 
             .title {
                 font-size: 2rem;
